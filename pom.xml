@@ -23,7 +23,7 @@
         <version>2.7.0</version>
     </parent>
 
-    <groupId>org.customproject</groupId>
+    <groupId>org.weqe</groupId>
     <artifactId>custom-app</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
@@ -38,8 +38,6 @@
         <onos.app.category>default</onos.app.category>
         <onos.app.url>http://onosproject.org</onos.app.url>
         <onos.app.readme>ONOS OSGi bundle archetype.</onos.app.readme>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
     <dependencies>

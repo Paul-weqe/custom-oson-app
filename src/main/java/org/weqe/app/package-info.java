@@ -17,4 +17,4 @@
 /**
  * ONOS application archetype.
  */
-package org.customproject.customapp;
+package org.weqe.app;
