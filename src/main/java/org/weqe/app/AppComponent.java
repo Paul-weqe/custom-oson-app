@@ -36,7 +36,7 @@ import java.util.List;
  * Skeletal ONOS application component.
  */
 @Component(immediate = true)
-public class AppComponent implements SomeInterface {
+public class AppComponent {
 
 
 
@@ -97,11 +97,6 @@ public class AppComponent implements SomeInterface {
                 log.info("A FLOW HAS BEEN ADDED");
             }
         }
-    }
-
-    @Override
-    public void someMethod() {
-        System.out.println("This is done");
     }
 
     public static class VrrpGroup {
