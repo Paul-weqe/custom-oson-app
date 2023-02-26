@@ -18,24 +18,19 @@ package org.weqe.app;
 import org.onlab.packet.*;
 import org.onosproject.core.ApplicationId;
 import org.onosproject.core.CoreService;
-import org.onosproject.net.ConnectPoint;
-import org.onosproject.net.DeviceId;
-import org.onosproject.net.device.DeviceEvent;
-import org.onosproject.net.device.DeviceListener;
-import org.onosproject.net.device.DeviceService;
+import org.onosproject.net.Device;
 import org.onosproject.net.flow.FlowRule;
 import org.onosproject.net.flow.FlowRuleEvent;
 import org.onosproject.net.flow.FlowRuleListener;
-import org.onosproject.net.host.HostEvent;
-import org.onosproject.net.host.HostListener;
-import org.onosproject.net.host.HostService;
 import org.onosproject.net.packet.PacketContext;
 import org.onosproject.net.packet.PacketProcessor;
 import org.onosproject.net.packet.PacketService;
 import org.osgi.service.component.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import shaded.org.apache.http.Header;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Skeletal ONOS application component.
@@ -43,10 +38,15 @@ import shaded.org.apache.http.Header;
 @Component(immediate = true)
 public class AppComponent implements SomeInterface {
 
+
+
     private static Logger log = LoggerFactory.getLogger(AppComponent.class);
     private final PacketProcessor packetProcessor = new HttpPacketProcessor();
     private ApplicationId appId;
     private static final int PRIORITY = 128;
+
+    private final List<Device> lbDevices = new ArrayList<>();
+
 
     @Reference(cardinality = ReferenceCardinality.MANDATORY)
     protected CoreService coreService;
@@ -75,7 +75,6 @@ public class AppComponent implements SomeInterface {
 
             Ethernet eth = context.inPacket().parsed();
 
-
             if (
                     eth.getEtherType() == Ethernet.TYPE_IPV4 &&
                     ((IPv4) eth.getPayload()).getProtocol() == IPv4.PROTOCOL_TCP
@@ -86,7 +85,6 @@ public class AppComponent implements SomeInterface {
                 String ipAddress = IPv4.fromIPv4Address(payload.getSourceAddress());
                 IPacket pkt = eth.getPayload();
                 System.out.println(((TCP) pkt.getPayload()).getSourcePort());
-
             }
         }
     }
@@ -104,5 +102,12 @@ public class AppComponent implements SomeInterface {
     @Override
     public void someMethod() {
         System.out.println("This is done");
+    }
+
+    public static class VrrpGroup {
+
+        // 00-00-5E-00-01-XX
+        // XX is the Virtual Router ID (VRID)
+
     }
 }
