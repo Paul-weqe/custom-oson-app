@@ -2,8 +2,8 @@ package org.weqe.app;
 
 import org.onosproject.net.*;
 import org.weqe.app.virtualelements.VirtualDevice;
-
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 public class VRRPGroup extends AbstractElement {
@@ -13,19 +13,22 @@ public class VRRPGroup extends AbstractElement {
         return id;
     }
 
-    private VirtualDevice groupLeader = null;
+    private VirtualDevice virtualRouter = null;
     private Set<Device> groupDevices = new HashSet<>();
 
+
     public VRRPGroup(VirtualDevice virtualDevice){
-        this.groupLeader = virtualDevice;
+        this.virtualRouter = virtualDevice;
     }
 
     public VRRPGroup(VirtualDevice virtualDevice, Set<Device> devices){
-        this.groupLeader = virtualDevice;
-        this.groupDevices = devices;
+        this.virtualRouter = virtualDevice;
+        if (devices != null) {
+            this.groupDevices = devices;
+        }
     }
 
-    public VirtualDevice getLeader(){ return groupLeader; }
+    public VirtualDevice getVirtualRouter(){ return virtualRouter; }
     public Set<Device> getGroupDevices(){ return groupDevices; }
 
     public void addDevice(Device device){
@@ -34,6 +37,17 @@ public class VRRPGroup extends AbstractElement {
 
     public void removeDevice(Device device){
         groupDevices.remove(device);
+    }
+
+    public Device nextDevice(){
+        int size = groupDevices.size();
+        int item = new Random().nextInt(size);
+        int i = 0;
+        for (Device device: groupDevices){
+            if (i == item) return device;
+            i++;
+        }
+        return null;
     }
 
 }
